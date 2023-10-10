@@ -4,7 +4,13 @@ part of 'books_bloc.dart';
 abstract class BooksEvent {}
 
 class LoadBooksEvent extends BooksEvent {
-  final int page;
+  final int? page;
 
-  LoadBooksEvent({required this.page});
+  LoadBooksEvent({this.page});
+}
+
+class LoadPoliticsBooksEvent extends BooksEvent {
+  final int? page;
+
+  LoadPoliticsBooksEvent({this.page});
 }

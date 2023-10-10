@@ -191,9 +191,9 @@ class VolumeInfo {
   final String title;
   final String? subtitle;
   final List<String> authors;
-  final String publisher;
+  final String? publisher;
   final String publishedDate;
-  final String description;
+  final String? description;
   final List<IndustryIdentifier> industryIdentifiers;
   final ReadingModes readingModes;
   final int pageCount;
@@ -204,7 +204,7 @@ class VolumeInfo {
   final String maturityRating;
   final bool allowAnonLogging;
   final String contentVersion;
-  final PanelizationSummary panelizationSummary;
+  // final PanelizationSummary? panelizationSummary;
   final ImageLinks imageLinks;
   final String language;
   final String previewLink;
@@ -228,7 +228,7 @@ class VolumeInfo {
     required this.maturityRating,
     required this.allowAnonLogging,
     required this.contentVersion,
-    required this.panelizationSummary,
+    // required this.panelizationSummary,
     required this.imageLinks,
     required this.language,
     required this.previewLink,
@@ -257,8 +257,8 @@ class VolumeInfo {
         maturityRating: json["maturityRating"],
         allowAnonLogging: json["allowAnonLogging"],
         contentVersion: json["contentVersion"],
-        panelizationSummary:
-            PanelizationSummary.fromJson(json["panelizationSummary"]),
+        // panelizationSummary:
+        //     PanelizationSummary.fromJson(json["panelizationSummary"]),
         imageLinks: ImageLinks.fromJson(json["imageLinks"]),
         language: json["language"],
         previewLink: json["previewLink"],
@@ -284,7 +284,7 @@ class VolumeInfo {
         "maturityRating": maturityRating,
         "allowAnonLogging": allowAnonLogging,
         "contentVersion": contentVersion,
-        "panelizationSummary": panelizationSummary.toJson(),
+        // "panelizationSummary": panelizationSummary?.toJson(),
         "imageLinks": imageLinks.toJson(),
         "language": language,
         "previewLink": previewLink,

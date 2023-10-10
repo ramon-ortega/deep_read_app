@@ -1,7 +1,8 @@
 import 'package:deep_read_app/presentation/blocs/books/books_bloc.dart';
+import 'package:deep_read_app/presentation/widgets/shared/custom_bottom_navigation_bar.dart';
+import 'package:deep_read_app/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-import 'package:deep_read_app/config/constants/environment.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -13,6 +14,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: _HomeView(),
+      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }
@@ -28,20 +30,54 @@ class _HomeViewState extends State<_HomeView> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BooksBloc, BooksState>(builder: (context, state) {
-      if (state is BooksLoaded) {
-        return ListView.builder(
-            itemCount: state.books.length,
-            itemBuilder: (context, index) {
-              final book = state.books[index];
-              return ListTile(
-                title: Text(book.title),
+      return CustomScrollView(
+        slivers: [
+          const SliverAppBar(
+            floating: true,
+            flexibleSpace: FlexibleSpaceBar(
+              title: CustomAppbar(),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate((context, index) {
+              return Column(
+                children: [
+                  state is BooksLoaded
+                      ? Column(
+                          children: [
+                            BooksSlideshow(
+                              books: state.headerBooks,
+                            ),
+                            BooksHorizontalListView(
+                              title: 'Ciencia Ficción',
+                              books: state.scienceBooks,
+                              loadNextPage: () => {
+                                context.read<BooksBloc>().add(LoadBooksEvent()),
+                              },
+                            ),
+                            BooksHorizontalListView(
+                              title: 'Terror',
+                              books: state.horrorBooks,
+                              loadNextPage: () => {
+                                // context.read<BooksBloc>().add(LoadBooksEvent()),
+                              },
+                            ),
+                            BooksHorizontalListView(
+                              title: 'Política',
+                              books: state.politicsBooks,
+                              loadNextPage: () => {
+                                // context.read<BooksBloc>().add(LoadBooksEvent()),
+                              },
+                            ),
+                          ],
+                        )
+                      : const FullScreenLoader(),
+                ],
               );
-            });
-      } else {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      }
+            }, childCount: 1),
+          ),
+        ],
+      );
     });
   }
 }

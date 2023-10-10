@@ -2,7 +2,16 @@ part of 'books_bloc.dart';
 
 @immutable
 abstract class BooksState {
-  const BooksState();
+  final List<Book>? scienceBooks;
+  final List<Book>? headerBooks;
+  final List<Book>? politicsBooks;
+  final List<Book>? horrorBooks;
+  const BooksState({
+    this.scienceBooks,
+    this.headerBooks,
+    this.politicsBooks,
+    this.horrorBooks,
+  });
 }
 
 final class BooksInitial extends BooksState {
@@ -14,9 +23,22 @@ final class BooksLoading extends BooksState {
 }
 
 final class BooksLoaded extends BooksState {
-  final List<Book> books;
+  final List<Book> scienceBooks;
+  final List<Book> headerBooks;
+  final List<Book> politicsBooks;
+  final List<Book> horrorBooks;
 
-  const BooksLoaded({required this.books});
+  const BooksLoaded({
+    required this.scienceBooks,
+    required this.headerBooks,
+    required this.politicsBooks,
+    required this.horrorBooks,
+  }) : super(
+          headerBooks: headerBooks,
+          scienceBooks: scienceBooks,
+          politicsBooks: politicsBooks,
+          horrorBooks: horrorBooks,
+        );
 }
 
 final class ErrorBooks extends BooksState {
