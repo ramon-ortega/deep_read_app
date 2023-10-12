@@ -4,6 +4,7 @@ import 'package:deep_read_app/config/constants/environment.dart';
 import 'package:deep_read_app/domain/datasources/books_datasource.dart';
 import 'package:deep_read_app/domain/entities/book.dart';
 import 'package:deep_read_app/infraestructure/mappers/book_mapper.dart';
+import 'package:deep_read_app/infraestructure/models/booksgoogle/book_details.dart';
 import 'package:deep_read_app/infraestructure/models/booksgoogle/books_google_response.dart';
 import 'package:dio/dio.dart';
 
@@ -50,5 +51,20 @@ class BookGoogleAPIDatasource extends BooksDataSource {
         .toList();
 
     return books;
+  }
+
+  @override
+  Future<Book> getMovieById(String id) async {
+    final response = await dio.get(
+      '/volumes/$id',
+    );
+    if (response.statusCode != 200) {
+      throw Exception('Book with id $id not found');
+    }
+
+    final bookGoogle = BookDetails.fromJson(response.data);
+    final Book book = BookMaper.bookDetailsToEntity(bookGoogle);
+
+    return book;
   }
 }

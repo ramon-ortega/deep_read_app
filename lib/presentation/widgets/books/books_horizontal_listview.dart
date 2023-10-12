@@ -1,6 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:deep_read_app/domain/entities/book.dart';
+import 'package:deep_read_app/presentation/blocs/books/books_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class BooksHorizontalListView extends StatefulWidget {
   final List<Book> books;
@@ -89,7 +92,7 @@ class _Slide extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image.network(
-                book.imageLinks.thumbnail,
+                book.imageLinks.thumbnail!,
                 width: 120,
                 fit: BoxFit.cover,
                 loadingBuilder: (context, child, loadingPress) {
@@ -103,7 +106,15 @@ class _Slide extends StatelessWidget {
                       ),
                     );
                   }
-                  return child;
+                  return GestureDetector(
+                    onTap: () {
+                      context
+                          .read<BooksBloc>()
+                          .add(LoadDetailsBookEvent(bookId: book.id));
+                      context.push('/book/${book.id}');
+                    },
+                    child: child,
+                  );
                 },
               ),
             ),

@@ -1,7 +1,10 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:deep_read_app/domain/entities/book.dart';
+import 'package:deep_read_app/presentation/blocs/books/books_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class BooksSlideshow extends StatelessWidget {
   final List<Book> books;
@@ -65,7 +68,7 @@ class _Slide extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8),
           child: Image.network(
-            book.imageLinks.thumbnail,
+            book.imageLinks.thumbnail!,
             fit: BoxFit.cover,
             loadingBuilder: (context, child, loadingProgress) {
               if (loadingProgress != null) {
@@ -73,8 +76,16 @@ class _Slide extends StatelessWidget {
                   decoration: BoxDecoration(color: Colors.black12),
                 );
               }
-              return FadeIn(
-                child: child,
+              return GestureDetector(
+                onTap: () {
+                  context
+                      .read<BooksBloc>()
+                      .add(LoadDetailsBookEvent(bookId: book.id));
+                  context.push('/book/${book.id}');
+                },
+                child: FadeIn(
+                  child: child,
+                ),
               );
             },
           ),

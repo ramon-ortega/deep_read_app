@@ -1,5 +1,5 @@
-import 'dart:math';
-// import 'dart:developer';
+import 'dart:math' as math;
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:deep_read_app/domain/entities/book.dart';
@@ -16,6 +16,8 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
   List<Book> _currentBooks = [];
   final List<Book> _politicsBooks = [];
   final List<Book> _horrorMovies = [];
+  Map<String, Book> _chacheBooks = {};
+
   bool isLoading = false;
 
   BooksBloc() : super(const BooksInitial()) {
@@ -24,6 +26,16 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
     on<LoadPoliticsBooksEvent>(
         (event, emit) => _loadPoliticsBooks(event, emit, state));
     add(LoadPoliticsBooksEvent(page: _startPoliticsPage));
+    on<LoadDetailsBookEvent>((event, emit) => {
+          loadBook(event.bookId),
+          emit(BooksLoaded(
+            scienceBooks: _currentBooks,
+            headerBooks: state.headerBooks ?? [],
+            politicsBooks: state.politicsBooks ?? _politicsBooks,
+            horrorBooks: state.horrorBooks ?? _horrorMovies,
+            cacheBooks: _chacheBooks,
+          ))
+        });
   }
 
   Future<void> _loadBooks(
@@ -35,7 +47,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
 
       final List<Book> newBooks = await _booksRepo.getScience(page: _startPage);
       _currentBooks = [..._currentBooks, ...newBooks];
-      final int endIndex = min(8, newBooks.length);
+      final int endIndex = math.min(8, newBooks.length);
       final List<Book> limitedBooks = _currentBooks.sublist(0, endIndex);
 
       emit(BooksLoaded(
@@ -43,11 +55,12 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
         headerBooks: limitedBooks,
         politicsBooks: state.politicsBooks ?? _politicsBooks,
         horrorBooks: state.horrorBooks ?? _horrorMovies,
+        cacheBooks: state.cacheBooks,
       ));
       _startPage++;
       isLoading = false;
     } catch (e) {
-      // log("Error loading books: $e");
+      log("Error loading books: $e");
       emit(ErrorBooks(error: e.toString()));
     }
   }
@@ -63,14 +76,21 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
       final List<Book> limitedBooks = _currentBooks.sublist(0, 8);
 
       emit(BooksLoaded(
-        scienceBooks: _currentBooks,
-        headerBooks: limitedBooks,
-        politicsBooks: newBooks,
-        horrorBooks: horrorBooks,
-      ));
+          scienceBooks: _currentBooks,
+          headerBooks: limitedBooks,
+          politicsBooks: newBooks,
+          horrorBooks: horrorBooks,
+          cacheBooks: state.cacheBooks));
     } catch (e) {
-      // log("Error loading books: $e");
+      log("Error loading books: $e");
       emit(ErrorBooks(error: e.toString()));
     }
+  }
+
+  Future<void> loadBook(String bookId) async {
+    if (_chacheBooks[bookId] != null) return;
+
+    final book = await _booksRepo.getMovieById(bookId);
+    _chacheBooks = {..._chacheBooks, bookId: book};
   }
 }

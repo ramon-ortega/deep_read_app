@@ -19,4 +19,9 @@ class BookRepositoryImpl extends BooksRepository {
   Future<List<Book>> getHorror({int page = 0}) {
     return booksRepository.getHorror(page: page);
   }
+
+  @override
+  Future<Book> getMovieById(String id) {
+    return booksRepository.getMovieById(id);
+  }
 }

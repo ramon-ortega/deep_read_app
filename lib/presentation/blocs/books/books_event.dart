@@ -14,3 +14,9 @@ class LoadPoliticsBooksEvent extends BooksEvent {
 
   LoadPoliticsBooksEvent({this.page});
 }
+
+class LoadDetailsBookEvent extends BooksEvent {
+  final String bookId;
+
+  LoadDetailsBookEvent({required this.bookId});
+}
