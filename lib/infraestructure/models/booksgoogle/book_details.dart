@@ -164,11 +164,11 @@ class VolumeInfo {
   final int printedPageCount;
   final Dimensions dimensions;
   final String printType;
-  final List<String> categories;
+  final List<String>? categories;
   final String maturityRating;
   final bool allowAnonLogging;
   final String contentVersion;
-  final PanelizationSummary panelizationSummary;
+  final PanelizationSummary? panelizationSummary;
   final ImageLinks imageLinks;
   final String language;
   final String previewLink;
@@ -187,11 +187,11 @@ class VolumeInfo {
     required this.printedPageCount,
     required this.dimensions,
     required this.printType,
-    required this.categories,
+    this.categories,
     required this.maturityRating,
     required this.allowAnonLogging,
     required this.contentVersion,
-    required this.panelizationSummary,
+    this.panelizationSummary,
     required this.imageLinks,
     required this.language,
     required this.previewLink,
@@ -213,12 +213,15 @@ class VolumeInfo {
         printedPageCount: json["printedPageCount"],
         dimensions: Dimensions.fromJson(json["dimensions"]),
         printType: json["printType"],
-        categories: List<String>.from(json["categories"].map((x) => x)),
+        categories: json["categories"] != null
+            ? List<String>.from(json["categories"].map((x) => x))
+            : [],
         maturityRating: json["maturityRating"],
         allowAnonLogging: json["allowAnonLogging"],
         contentVersion: json["contentVersion"],
-        panelizationSummary:
-            PanelizationSummary.fromJson(json["panelizationSummary"]),
+        panelizationSummary: json["panelizationSummary"] != null
+            ? PanelizationSummary.fromJson(json["panelizationSummary"])
+            : null,
         imageLinks: ImageLinks.fromJson(json["imageLinks"]),
         language: json["language"],
         previewLink: json["previewLink"],
@@ -239,11 +242,13 @@ class VolumeInfo {
         "printedPageCount": printedPageCount,
         "dimensions": dimensions.toJson(),
         "printType": printType,
-        "categories": List<dynamic>.from(categories.map((x) => x)),
+        "categories": categories != null
+            ? List<dynamic>.from(categories!.map((x) => x))
+            : null,
         "maturityRating": maturityRating,
         "allowAnonLogging": allowAnonLogging,
         "contentVersion": contentVersion,
-        "panelizationSummary": panelizationSummary.toJson(),
+        "panelizationSummary": panelizationSummary?.toJson(),
         "imageLinks": imageLinks.toJson(),
         "language": language,
         "previewLink": previewLink,

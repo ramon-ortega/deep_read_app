@@ -23,7 +23,7 @@ class BookGoogleAPIDatasource extends BooksDataSource {
           'startIndex': page * 10,
         });
 
-    return _jsonToMovies(response.data);
+    return _jsonToBooks(response.data);
   }
 
   @override
@@ -32,7 +32,7 @@ class BookGoogleAPIDatasource extends BooksDataSource {
         .get('/volumes?q=subject:politics&maxResults=10', queryParameters: {
       'startIndex': page * 10,
     });
-    return _jsonToMovies(response.data);
+    return _jsonToBooks(response.data);
   }
 
   @override
@@ -41,10 +41,10 @@ class BookGoogleAPIDatasource extends BooksDataSource {
         .get('/volumes?q=subject:horror&maxResults=10', queryParameters: {
       'startIndex': page * 10,
     });
-    return _jsonToMovies(response.data);
+    return _jsonToBooks(response.data);
   }
 
-  List<Book> _jsonToMovies(Map<String, dynamic> json) {
+  List<Book> _jsonToBooks(Map<String, dynamic> json) {
     final bookGoogleResponse = BooksGoogleResponse.fromJson(json);
     final List<Book> books = bookGoogleResponse.items
         .map((bookGoogle) => BookMaper.googleBookToEntity(bookGoogle))
@@ -54,7 +54,7 @@ class BookGoogleAPIDatasource extends BooksDataSource {
   }
 
   @override
-  Future<Book> getMovieById(String id) async {
+  Future<Book> getBookById(String id) async {
     final response = await dio.get(
       '/volumes/$id',
     );
@@ -66,5 +66,14 @@ class BookGoogleAPIDatasource extends BooksDataSource {
     final Book book = BookMaper.bookDetailsToEntity(bookGoogle);
 
     return book;
+  }
+
+  @override
+  Future<List<Book>> searchBooks(String query) async {
+    if (query == '') return [];
+    final response = await dio.get('/volumes', queryParameters: {
+      'q': query,
+    });
+    return _jsonToBooks(response.data);
   }
 }

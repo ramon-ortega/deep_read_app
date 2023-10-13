@@ -190,64 +190,66 @@ class SaleInfo {
 class VolumeInfo {
   final String title;
   final String? subtitle;
-  final List<String> authors;
+  final List<String>? authors;
   final String? publisher;
-  final String publishedDate;
+  final String? publishedDate;
   final String? description;
-  final List<IndustryIdentifier> industryIdentifiers;
-  final ReadingModes readingModes;
-  final int pageCount;
-  final String printType;
+  final List<IndustryIdentifier>? industryIdentifiers;
+  final ReadingModes? readingModes;
+  final int? pageCount;
+  final String? printType;
   final List<String> categories;
   final double? averageRating;
   final int? ratingsCount;
-  final String maturityRating;
+  final String? maturityRating;
   final bool allowAnonLogging;
-  final String contentVersion;
+  final String? contentVersion;
   // final PanelizationSummary? panelizationSummary;
-  final ImageLinks imageLinks;
+  final ImageLinks? imageLinks;
   final String language;
   final String previewLink;
-  final String infoLink;
-  final String canonicalVolumeLink;
+  final String? infoLink;
+  final String? canonicalVolumeLink;
 
   VolumeInfo({
     required this.title,
     this.subtitle,
-    required this.authors,
-    required this.publisher,
-    required this.publishedDate,
-    required this.description,
-    required this.industryIdentifiers,
-    required this.readingModes,
-    required this.pageCount,
-    required this.printType,
+    this.authors,
+    this.publisher,
+    this.publishedDate,
+    this.description,
+    this.industryIdentifiers,
+    this.readingModes,
+    this.pageCount,
+    this.printType,
     required this.categories,
     this.averageRating,
     this.ratingsCount,
-    required this.maturityRating,
+    this.maturityRating,
     required this.allowAnonLogging,
-    required this.contentVersion,
+    this.contentVersion,
     // required this.panelizationSummary,
-    required this.imageLinks,
+    this.imageLinks,
     required this.language,
     required this.previewLink,
-    required this.infoLink,
-    required this.canonicalVolumeLink,
+    this.infoLink,
+    this.canonicalVolumeLink,
   });
 
   factory VolumeInfo.fromJson(Map<String, dynamic> json) => VolumeInfo(
         title: json["title"],
         subtitle: json["subtitle"],
-        authors: List<String>.from(json["authors"].map((x) => x)),
-        publisher: json["publisher"],
-        publishedDate: json["publishedDate"],
+        authors: json["authors"] != null
+            ? List<String>.from(json["authors"].map((x) => x))
+            : [],
+        publishedDate: json["publishedDate"] ?? 'No Date',
         description: json["description"],
-        industryIdentifiers: List<IndustryIdentifier>.from(
-            json["industryIdentifiers"]
-                .map((x) => IndustryIdentifier.fromJson(x))),
+        industryIdentifiers: json["industryIdentifiers"] != null
+            ? List<IndustryIdentifier>.from(json["industryIdentifiers"]
+                .map((x) => IndustryIdentifier.fromJson(x)))
+            : [],
         readingModes: ReadingModes.fromJson(json["readingModes"]),
-        pageCount: json["pageCount"],
+        pageCount: json["pageCount"] ?? 0,
         printType: json["printType"],
         categories: List<String>.from((json["categories"] ?? [])
             .where((x) => x != null && x is String)
@@ -259,7 +261,9 @@ class VolumeInfo {
         contentVersion: json["contentVersion"],
         // panelizationSummary:
         //     PanelizationSummary.fromJson(json["panelizationSummary"]),
-        imageLinks: ImageLinks.fromJson(json["imageLinks"]),
+        imageLinks: json["imageLinks"] != null
+            ? ImageLinks.fromJson(json["imageLinks"])
+            : null,
         language: json["language"],
         previewLink: json["previewLink"],
         infoLink: json["infoLink"],
@@ -269,13 +273,13 @@ class VolumeInfo {
   Map<String, dynamic> toJson() => {
         "title": title,
         "subtitle": subtitle,
-        "authors": List<dynamic>.from(authors.map((x) => x)),
+        "authors": List<dynamic>.from(authors?.map((x) => x) ?? []),
         "publisher": publisher,
         "publishedDate": publishedDate,
         "description": description,
-        "industryIdentifiers":
-            List<dynamic>.from(industryIdentifiers.map((x) => x.toJson())),
-        "readingModes": readingModes.toJson(),
+        "industryIdentifiers": List<dynamic>.from(
+            (industryIdentifiers?.map((x) => x.toJson()) ?? [])),
+        "readingModes": readingModes?.toJson(),
         "pageCount": pageCount,
         "printType": printType,
         "categories": List<dynamic>.from(categories.map((x) => x)),
@@ -285,7 +289,7 @@ class VolumeInfo {
         "allowAnonLogging": allowAnonLogging,
         "contentVersion": contentVersion,
         // "panelizationSummary": panelizationSummary?.toJson(),
-        "imageLinks": imageLinks.toJson(),
+        "imageLinks": imageLinks?.toJson(),
         "language": language,
         "previewLink": previewLink,
         "infoLink": infoLink,

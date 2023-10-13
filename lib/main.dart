@@ -1,5 +1,5 @@
-import 'package:deep_read_app/infraestructure/repositories/book_repository_impl.dart';
 import 'package:deep_read_app/presentation/blocs/books/books_bloc.dart';
+import 'package:deep_read_app/presentation/blocs/search_book/search_book_cubit.dart';
 import 'package:flutter/material.dart';
 
 import 'package:deep_read_app/config/router/app_router.dart';
@@ -11,7 +11,14 @@ void main() async {
   await dotenv.load(fileName: '.env');
   runApp(
     MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => BooksBloc())],
+      providers: [
+        BlocProvider(
+          create: (context) => BooksBloc(),
+        ),
+        BlocProvider(
+          create: (context) => BookSearchBloc(),
+        )
+      ],
       child: const MainApp(),
     ),
   );

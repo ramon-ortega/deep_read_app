@@ -18,7 +18,7 @@ class BookScreen extends StatelessWidget {
     return BlocBuilder<BooksBloc, BooksState>(
       builder: (context, state) {
         final Book? book = state.cacheBooks?[bookId];
-        if (state.cacheBooks![bookId] == null) {
+        if (state.cacheBooks?[bookId] == null) {
           context.read<BooksBloc>().add(LoadDetailsBookEvent(
                 bookId: bookId,
               ));

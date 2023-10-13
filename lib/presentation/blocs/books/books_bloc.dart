@@ -15,7 +15,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
   final int _startPoliticsPage = 0;
   List<Book> _currentBooks = [];
   final List<Book> _politicsBooks = [];
-  final List<Book> _horrorMovies = [];
+  final List<Book> _horrorBooks = [];
   Map<String, Book> _chacheBooks = {};
 
   bool isLoading = false;
@@ -32,7 +32,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
             scienceBooks: _currentBooks,
             headerBooks: state.headerBooks ?? [],
             politicsBooks: state.politicsBooks ?? _politicsBooks,
-            horrorBooks: state.horrorBooks ?? _horrorMovies,
+            horrorBooks: state.horrorBooks ?? _horrorBooks,
             cacheBooks: _chacheBooks,
           ))
         });
@@ -54,7 +54,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
         scienceBooks: _currentBooks,
         headerBooks: limitedBooks,
         politicsBooks: state.politicsBooks ?? _politicsBooks,
-        horrorBooks: state.horrorBooks ?? _horrorMovies,
+        horrorBooks: state.horrorBooks ?? _horrorBooks,
         cacheBooks: state.cacheBooks,
       ));
       _startPage++;
@@ -90,7 +90,7 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
   Future<void> loadBook(String bookId) async {
     if (_chacheBooks[bookId] != null) return;
 
-    final book = await _booksRepo.getMovieById(bookId);
+    final book = await _booksRepo.getBookById(bookId);
     _chacheBooks = {..._chacheBooks, bookId: book};
   }
 }

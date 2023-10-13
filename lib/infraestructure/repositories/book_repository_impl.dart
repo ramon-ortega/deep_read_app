@@ -21,7 +21,12 @@ class BookRepositoryImpl extends BooksRepository {
   }
 
   @override
-  Future<Book> getMovieById(String id) {
-    return booksRepository.getMovieById(id);
+  Future<Book> getBookById(String id) {
+    return booksRepository.getBookById(id);
+  }
+
+  @override
+  Future<List<Book>> searchBooks(String query) {
+    return booksRepository.searchBooks(query);
   }
 }
