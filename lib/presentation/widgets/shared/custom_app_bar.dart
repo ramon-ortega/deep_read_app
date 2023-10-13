@@ -1,8 +1,5 @@
 import 'package:deep_read_app/domain/entities/book.dart';
-import 'package:deep_read_app/domain/repositories/books_repository.dart';
 import 'package:deep_read_app/infraestructure/datasources/book_google_api_datasource.dart';
-import 'package:deep_read_app/presentation/blocs/books/books_bloc.dart';
-import 'package:deep_read_app/presentation/blocs/search_book/search_book_bloc.dart';
 import 'package:deep_read_app/presentation/blocs/search_book/search_book_cubit.dart';
 import 'package:deep_read_app/presentation/delegates/search_book_delegate.dart';
 import 'package:flutter/material.dart';

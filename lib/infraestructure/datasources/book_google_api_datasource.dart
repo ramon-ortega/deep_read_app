@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:deep_read_app/config/constants/environment.dart';
 import 'package:deep_read_app/domain/datasources/books_datasource.dart';
 import 'package:deep_read_app/domain/entities/book.dart';

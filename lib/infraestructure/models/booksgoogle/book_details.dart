@@ -162,7 +162,7 @@ class VolumeInfo {
   final ReadingModes readingModes;
   final int pageCount;
   final int printedPageCount;
-  final Dimensions dimensions;
+  final Dimensions? dimensions;
   final String printType;
   final List<String>? categories;
   final String maturityRating;
@@ -185,7 +185,7 @@ class VolumeInfo {
     required this.readingModes,
     required this.pageCount,
     required this.printedPageCount,
-    required this.dimensions,
+    this.dimensions,
     required this.printType,
     this.categories,
     required this.maturityRating,
@@ -240,7 +240,7 @@ class VolumeInfo {
         "readingModes": readingModes.toJson(),
         "pageCount": pageCount,
         "printedPageCount": printedPageCount,
-        "dimensions": dimensions.toJson(),
+        "dimensions": dimensions?.toJson(),
         "printType": printType,
         "categories": categories != null
             ? List<dynamic>.from(categories!.map((x) => x))

@@ -9,12 +9,13 @@ typedef SearchBookCallback = Future<List<Book>> Function(String query);
 class SearchBookDelegate extends SearchDelegate<Book?> {
   final SearchBookCallback searchBooks;
   StreamController<List<Book>> debounceBooks = StreamController.broadcast();
+  StreamController<bool> isLoadingStream = StreamController.broadcast();
   Timer? _debounceTimer;
 
   SearchBookDelegate({required this.searchBooks});
 
   void _onQueryChanged(String query) {
-    print('Query String cambio');
+    isLoadingStream.add(true);
 
     if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
 
@@ -27,25 +28,47 @@ class SearchBookDelegate extends SearchDelegate<Book?> {
         }
         final books = await searchBooks(query);
         debounceBooks.add(books);
+        isLoadingStream.add(false);
       },
     );
   }
 
   void clearStreams() {
     debounceBooks.close();
+    isLoadingStream.close();
   }
 
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
-      FadeIn(
-        animate: query.isNotEmpty,
-        child: IconButton(
-          onPressed: () => query = '',
-          icon: const Icon(
-            Icons.clear,
-          ),
-        ),
+      StreamBuilder(
+        initialData: false,
+        stream: isLoadingStream.stream,
+        builder: (context, snapshot) {
+          if (snapshot.data ?? false) {
+            return SpinPerfect(
+              duration: const Duration(seconds: 20),
+              infinite: true,
+              spins: 10,
+              animate: query.isNotEmpty,
+              child: IconButton(
+                onPressed: () => query = '',
+                icon: const Icon(
+                  Icons.refresh_rounded,
+                ),
+              ),
+            );
+          }
+          return FadeIn(
+            animate: query.isNotEmpty,
+            child: IconButton(
+              onPressed: () => query = '',
+              icon: const Icon(
+                Icons.clear,
+              ),
+            ),
+          );
+        },
       )
     ];
   }
@@ -63,7 +86,26 @@ class SearchBookDelegate extends SearchDelegate<Book?> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Text('hola');
+    _onQueryChanged(query);
+    return StreamBuilder(
+      stream: debounceBooks.stream,
+      builder: (context, snapshot) {
+        final books = snapshot.data ?? [];
+        return ListView.builder(
+          itemBuilder: (context, index) {
+            final Book book = books[index];
+            return _BookItem(
+              book: book,
+              onBookSelected: (context, book) {
+                clearStreams();
+                close(context, book);
+              },
+            );
+          },
+          itemCount: books.length,
+        );
+      },
+    );
   }
 
   @override
