@@ -1,5 +1,10 @@
+import 'dart:developer';
+
 import 'package:deep_read_app/domain/entities/book.dart';
+import 'package:deep_read_app/infraestructure/datasources/isar_datasource.dart';
+import 'package:deep_read_app/infraestructure/repositories/local_storage_repository_impl.dart';
 import 'package:deep_read_app/presentation/blocs/books/books_bloc.dart';
+import 'package:deep_read_app/presentation/blocs/local_storage/local_storage_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -151,12 +156,33 @@ class _BookDetails extends StatelessWidget {
   }
 }
 
-class _CustomSliverAppBar extends StatelessWidget {
+class _CustomSliverAppBar extends StatefulWidget {
   final Book book;
 
   const _CustomSliverAppBar({
     required this.book,
   });
+
+  @override
+  State<_CustomSliverAppBar> createState() => _CustomSliverAppBarState();
+}
+
+class _CustomSliverAppBarState extends State<_CustomSliverAppBar> {
+  bool? isFavoriteBook;
+
+  void _loadFavoriteStatus() async {
+    isFavoriteBook = await LocalStorageRepositoryImpl(
+      IsarDatasource(),
+    ).isBookFavorite(widget.book.id);
+    log("IS FAVORITE FROM SERVER $isFavoriteBook");
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFavoriteStatus();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,11 +192,35 @@ class _CustomSliverAppBar extends StatelessWidget {
       backgroundColor: Colors.black,
       expandedHeight: size.height * 0.7,
       foregroundColor: Colors.white,
+      actions: [
+        IconButton(
+          onPressed: () {
+            context
+                .read<LocalStorageBloc>()
+                .add(ToggleFavoriteEvent(widget.book));
+            _loadFavoriteStatus();
+          },
+          icon: FutureBuilder<bool>(
+            future: LocalStorageRepositoryImpl(
+              IsarDatasource(),
+            ).isBookFavorite(widget.book.id),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Icon(Icons.favorite_border);
+              } else if (snapshot.hasData && snapshot.data == true) {
+                return const Icon(Icons.favorite, color: Colors.red);
+              } else {
+                return const Icon(Icons.favorite_border);
+              }
+            },
+          ),
+        ),
+      ],
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: true,
         titlePadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         title: Text(
-          book.title,
+          widget.book.title,
           style: const TextStyle(
             fontSize: 20,
           ),
@@ -180,9 +230,9 @@ class _CustomSliverAppBar extends StatelessWidget {
           children: [
             SizedBox.expand(
               child: Image.network(
-                book.imageLinks.medium ??
-                    book.imageLinks.extraLarge ??
-                    book.imageLinks.thumbnail!,
+                widget.book.imageLinks.medium ??
+                    widget.book.imageLinks.extraLarge ??
+                    widget.book.imageLinks.thumbnail!,
                 fit: BoxFit.cover,
               ),
             ),
@@ -213,7 +263,22 @@ class _CustomSliverAppBar extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
+            const SizedBox.expand(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    stops: [0.0, 0.2],
+                    colors: [
+                      Colors.black45,
+                      Colors.transparent,
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

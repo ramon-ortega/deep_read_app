@@ -49,7 +49,7 @@ class CustomAppbar extends StatelessWidget {
                     ),
                   ).then((book) {
                     if (book == null) return;
-                    context.push('/book/${book.id}');
+                    context.push('/home/0/book/${book.id}');
                   });
                 },
                 icon: Icon(

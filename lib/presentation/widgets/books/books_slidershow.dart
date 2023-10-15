@@ -81,7 +81,7 @@ class _Slide extends StatelessWidget {
                   context
                       .read<BooksBloc>()
                       .add(LoadDetailsBookEvent(bookId: book.id));
-                  context.push('/book/${book.id}');
+                  context.push('/home/0/book/${book.id}');
                 },
                 child: FadeIn(
                   child: child,

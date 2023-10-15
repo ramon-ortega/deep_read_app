@@ -1,4 +1,5 @@
 import 'package:deep_read_app/presentation/blocs/books/books_bloc.dart';
+import 'package:deep_read_app/presentation/blocs/local_storage/local_storage_bloc.dart';
 import 'package:deep_read_app/presentation/blocs/search_book/search_book_cubit.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,9 @@ void main() async {
         ),
         BlocProvider(
           create: (context) => BookSearchBloc(),
+        ),
+        BlocProvider(
+          create: (context) => LocalStorageBloc(),
         )
       ],
       child: const MainApp(),
