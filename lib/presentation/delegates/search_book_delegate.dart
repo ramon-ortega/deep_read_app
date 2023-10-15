@@ -165,7 +165,7 @@ class _BookItem extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.network(
-                  book.imageLinks.thumbnail ??
+                  book.imageLinks?.thumbnail ??
                       'https://t3.ftcdn.net/jpg/03/34/83/22/360_F_334832255_IMxvzYRygjd20VlSaIAFZrQWjozQH6BQ.jpg',
                   loadingBuilder: (context, child, loadingProgress) =>
                       FadeIn(child: child),

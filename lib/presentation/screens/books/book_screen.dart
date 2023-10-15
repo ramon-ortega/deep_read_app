@@ -5,6 +5,7 @@ import 'package:deep_read_app/infraestructure/datasources/isar_datasource.dart';
 import 'package:deep_read_app/infraestructure/repositories/local_storage_repository_impl.dart';
 import 'package:deep_read_app/presentation/blocs/books/books_bloc.dart';
 import 'package:deep_read_app/presentation/blocs/local_storage/local_storage_bloc.dart';
+import 'package:deep_read_app/presentation/widgets/books/book_item_read_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -84,7 +85,7 @@ class _BookDetails extends StatelessWidget {
           height: 10,
         ),
         Text(
-          'Book Description',
+          'Descripción',
           style: textStyles.titleSmall,
         ),
         SizedBox(
@@ -102,7 +103,8 @@ class _BookDetails extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.network(
-                  book.imageLinks.thumbnail!,
+                  book.imageLinks?.thumbnail ??
+                      'https://www.colombianosune.com/sites/default/files/asociaciones/NO_disponible-43_15.jpg',
                   width: size.width * 0.3,
                 ),
               ),
@@ -121,7 +123,7 @@ class _BookDetails extends StatelessWidget {
           height: 10,
         ),
         Text(
-          'Categories',
+          'Categorias',
           style: textStyles.titleSmall,
         ),
         SizedBox(
@@ -147,6 +149,23 @@ class _BookDetails extends StatelessWidget {
               )
             ],
           ),
+        ),
+        const Divider(),
+        const SizedBox(
+          height: 10,
+        ),
+        Text(
+          'Vista Previa',
+          style: textStyles.titleSmall,
+        ),
+        SizedBox(
+          width: size.width * 0.4,
+          child: const Divider(
+            color: Colors.black87,
+          ),
+        ),
+        BookItemReadButton(
+          previewLink: book.previewLink,
         ),
         const SizedBox(
           height: 100,
@@ -230,9 +249,10 @@ class _CustomSliverAppBarState extends State<_CustomSliverAppBar> {
           children: [
             SizedBox.expand(
               child: Image.network(
-                widget.book.imageLinks.medium ??
-                    widget.book.imageLinks.extraLarge ??
-                    widget.book.imageLinks.thumbnail!,
+                widget.book.imageLinks?.medium ??
+                    widget.book.imageLinks?.extraLarge ??
+                    widget.book.imageLinks?.thumbnail ??
+                    'https://www.colombianosune.com/sites/default/files/asociaciones/NO_disponible-43_15.jpg',
                 fit: BoxFit.cover,
               ),
             ),

@@ -25,8 +25,20 @@ class Book {
   // final ImageLinks imageLinks;
   final String language;
   final String imageLinksJson;
+  final String previewLink;
   @ignore
-  ImageLinks get imageLinks => ImageLinks.fromJson(jsonDecode(imageLinksJson));
+  ImageLinks? get imageLinks {
+    if (imageLinksJson == null || imageLinksJson.isEmpty) {
+      return null;
+    }
+
+    if (!imageLinksJson.trim().startsWith('{') ||
+        !imageLinksJson.trim().endsWith('}')) {
+      return null;
+    }
+
+    return ImageLinks.fromJson(jsonDecode(imageLinksJson));
+  }
 
   Book({
     required this.id,
@@ -43,5 +55,6 @@ class Book {
     required this.ratingsCount,
     required this.imageLinksJson,
     required this.language,
+    required this.previewLink,
   });
 }

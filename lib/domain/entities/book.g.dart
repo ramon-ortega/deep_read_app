@@ -52,38 +52,43 @@ const BookSchema = CollectionSchema(
       name: r'language',
       type: IsarType.string,
     ),
-    r'printType': PropertySchema(
+    r'previewLink': PropertySchema(
       id: 7,
+      name: r'previewLink',
+      type: IsarType.string,
+    ),
+    r'printType': PropertySchema(
+      id: 8,
       name: r'printType',
       type: IsarType.string,
     ),
     r'publishedDate': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'publishedDate',
       type: IsarType.string,
     ),
     r'publisher': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'publisher',
       type: IsarType.string,
     ),
     r'ratingsCount': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'ratingsCount',
       type: IsarType.long,
     ),
     r'selfLink': PropertySchema(
-      id: 11,
+      id: 12,
       name: r'selfLink',
       type: IsarType.string,
     ),
     r'subtitle': PropertySchema(
-      id: 12,
+      id: 13,
       name: r'subtitle',
       type: IsarType.string,
     ),
     r'title': PropertySchema(
-      id: 13,
+      id: 14,
       name: r'title',
       type: IsarType.string,
     )
@@ -126,6 +131,7 @@ int _bookEstimateSize(
   bytesCount += 3 + object.id.length * 3;
   bytesCount += 3 + object.imageLinksJson.length * 3;
   bytesCount += 3 + object.language.length * 3;
+  bytesCount += 3 + object.previewLink.length * 3;
   bytesCount += 3 + object.printType.length * 3;
   bytesCount += 3 + object.publishedDate.length * 3;
   bytesCount += 3 + object.publisher.length * 3;
@@ -153,13 +159,14 @@ void _bookSerialize(
   writer.writeString(offsets[4], object.id);
   writer.writeString(offsets[5], object.imageLinksJson);
   writer.writeString(offsets[6], object.language);
-  writer.writeString(offsets[7], object.printType);
-  writer.writeString(offsets[8], object.publishedDate);
-  writer.writeString(offsets[9], object.publisher);
-  writer.writeLong(offsets[10], object.ratingsCount);
-  writer.writeString(offsets[11], object.selfLink);
-  writer.writeString(offsets[12], object.subtitle);
-  writer.writeString(offsets[13], object.title);
+  writer.writeString(offsets[7], object.previewLink);
+  writer.writeString(offsets[8], object.printType);
+  writer.writeString(offsets[9], object.publishedDate);
+  writer.writeString(offsets[10], object.publisher);
+  writer.writeLong(offsets[11], object.ratingsCount);
+  writer.writeString(offsets[12], object.selfLink);
+  writer.writeString(offsets[13], object.subtitle);
+  writer.writeString(offsets[14], object.title);
 }
 
 Book _bookDeserialize(
@@ -176,13 +183,14 @@ Book _bookDeserialize(
     id: reader.readString(offsets[4]),
     imageLinksJson: reader.readString(offsets[5]),
     language: reader.readString(offsets[6]),
-    printType: reader.readString(offsets[7]),
-    publishedDate: reader.readString(offsets[8]),
-    publisher: reader.readString(offsets[9]),
-    ratingsCount: reader.readLongOrNull(offsets[10]),
-    selfLink: reader.readString(offsets[11]),
-    subtitle: reader.readStringOrNull(offsets[12]),
-    title: reader.readString(offsets[13]),
+    previewLink: reader.readString(offsets[7]),
+    printType: reader.readString(offsets[8]),
+    publishedDate: reader.readString(offsets[9]),
+    publisher: reader.readString(offsets[10]),
+    ratingsCount: reader.readLongOrNull(offsets[11]),
+    selfLink: reader.readString(offsets[12]),
+    subtitle: reader.readStringOrNull(offsets[13]),
+    title: reader.readString(offsets[14]),
   );
   object.isarId = id;
   return object;
@@ -216,12 +224,14 @@ P _bookDeserializeProp<P>(
     case 9:
       return (reader.readString(offset)) as P;
     case 10:
-      return (reader.readLongOrNull(offset)) as P;
-    case 11:
       return (reader.readString(offset)) as P;
+    case 11:
+      return (reader.readLongOrNull(offset)) as P;
     case 12:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 13:
+      return (reader.readStringOrNull(offset)) as P;
+    case 14:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1408,6 +1418,136 @@ extension BookQueryFilter on QueryBuilder<Book, Book, QFilterCondition> {
     });
   }
 
+  QueryBuilder<Book, Book, QAfterFilterCondition> previewLinkEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'previewLink',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Book, Book, QAfterFilterCondition> previewLinkGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'previewLink',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Book, Book, QAfterFilterCondition> previewLinkLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'previewLink',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Book, Book, QAfterFilterCondition> previewLinkBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'previewLink',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Book, Book, QAfterFilterCondition> previewLinkStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'previewLink',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Book, Book, QAfterFilterCondition> previewLinkEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'previewLink',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Book, Book, QAfterFilterCondition> previewLinkContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'previewLink',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Book, Book, QAfterFilterCondition> previewLinkMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'previewLink',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Book, Book, QAfterFilterCondition> previewLinkIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'previewLink',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Book, Book, QAfterFilterCondition> previewLinkIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'previewLink',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<Book, Book, QAfterFilterCondition> printTypeEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -2335,6 +2475,18 @@ extension BookQuerySortBy on QueryBuilder<Book, Book, QSortBy> {
     });
   }
 
+  QueryBuilder<Book, Book, QAfterSortBy> sortByPreviewLink() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'previewLink', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Book, Book, QAfterSortBy> sortByPreviewLinkDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'previewLink', Sort.desc);
+    });
+  }
+
   QueryBuilder<Book, Book, QAfterSortBy> sortByPrintType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'printType', Sort.asc);
@@ -2493,6 +2645,18 @@ extension BookQuerySortThenBy on QueryBuilder<Book, Book, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Book, Book, QAfterSortBy> thenByPreviewLink() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'previewLink', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Book, Book, QAfterSortBy> thenByPreviewLinkDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'previewLink', Sort.desc);
+    });
+  }
+
   QueryBuilder<Book, Book, QAfterSortBy> thenByPrintType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'printType', Sort.asc);
@@ -2626,6 +2790,13 @@ extension BookQueryWhereDistinct on QueryBuilder<Book, Book, QDistinct> {
     });
   }
 
+  QueryBuilder<Book, Book, QDistinct> distinctByPreviewLink(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'previewLink', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<Book, Book, QDistinct> distinctByPrintType(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -2722,6 +2893,12 @@ extension BookQueryProperty on QueryBuilder<Book, Book, QQueryProperty> {
   QueryBuilder<Book, String, QQueryOperations> languageProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'language');
+    });
+  }
+
+  QueryBuilder<Book, String, QQueryOperations> previewLinkProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'previewLink');
     });
   }
 

@@ -92,7 +92,8 @@ class _Slide extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image.network(
-                book.imageLinks.thumbnail!,
+                book.imageLinks?.thumbnail ??
+                    'https://www.colombianosune.com/sites/default/files/asociaciones/NO_disponible-43_15.jpg',
                 width: 120,
                 fit: BoxFit.cover,
                 loadingBuilder: (context, child, loadingPress) {

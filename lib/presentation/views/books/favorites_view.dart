@@ -38,7 +38,8 @@ class FavoritesView extends StatelessWidget {
                         child: Row(
                           children: [
                             Image.network(
-                              favoriteBooksList[index].imageLinks.thumbnail!,
+                              favoriteBooksList[index].imageLinks?.thumbnail ??
+                                  'https://www.colombianosune.com/sites/default/files/asociaciones/NO_disponible-43_15.jpg',
                               width: 70,
                               height: 70,
                             ),

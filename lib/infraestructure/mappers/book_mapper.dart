@@ -20,22 +20,24 @@ class BookMaper {
         ratingsCount: googleBook.volumeInfo.ratingsCount,
         imageLinksJson: jsonEncode(googleBook.volumeInfo.imageLinks?.toJson()),
         language: googleBook.volumeInfo.language,
+        previewLink: googleBook.volumeInfo.previewLink!,
       );
 
   static Book bookDetailsToEntity(BookDetails googleBook) => Book(
         id: googleBook.id,
         selfLink: googleBook.selfLink,
-        title: googleBook.volumeInfo.title,
+        title: googleBook.volumeInfo.title ?? 'Sin titulo',
         subtitle: 'Sin subtitulo',
-        authors: googleBook.volumeInfo.authors,
-        publisher: googleBook.volumeInfo.publisher,
-        publishedDate: googleBook.volumeInfo.publishedDate,
-        description: googleBook.volumeInfo.description,
-        printType: googleBook.volumeInfo.printType,
+        authors: googleBook.volumeInfo.authors ?? [],
+        publisher: googleBook.volumeInfo.publisher ?? 'Desconocido',
+        publishedDate: googleBook.volumeInfo.publishedDate ?? 'Desconocido',
+        description: googleBook.volumeInfo.description ?? 'Sin descripción',
+        printType: googleBook.volumeInfo.printType ?? '',
         categories: googleBook.volumeInfo.categories ?? [],
         averageRating: 0.0,
         ratingsCount: 0,
-        imageLinksJson: jsonEncode(googleBook.volumeInfo.imageLinks.toJson()),
+        imageLinksJson: jsonEncode(googleBook.volumeInfo.imageLinks?.toJson()),
         language: googleBook.volumeInfo.language,
+        previewLink: googleBook.volumeInfo.previewLink!,
       );
 }

@@ -207,7 +207,7 @@ class VolumeInfo {
   // final PanelizationSummary? panelizationSummary;
   final ImageLinks? imageLinks;
   final String language;
-  final String previewLink;
+  final String? previewLink;
   final String? infoLink;
   final String? canonicalVolumeLink;
 
@@ -231,7 +231,7 @@ class VolumeInfo {
     // required this.panelizationSummary,
     this.imageLinks,
     required this.language,
-    required this.previewLink,
+    this.previewLink,
     this.infoLink,
     this.canonicalVolumeLink,
   });
