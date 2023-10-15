@@ -10,9 +10,13 @@ class FavoritesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final titleStyle = Theme.of(context).textTheme.titleMedium;
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Favorites'),
+          title: Text(
+            'Favoritos',
+            style: titleStyle?.copyWith(color: Colors.white),
+          ),
           centerTitle: true,
         ),
         body: BlocBuilder<LocalStorageBloc, LocalStorageState>(

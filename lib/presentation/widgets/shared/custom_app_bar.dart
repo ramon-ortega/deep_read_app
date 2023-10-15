@@ -11,7 +11,6 @@ class CustomAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
     final titleStyle = Theme.of(context).textTheme.titleMedium;
 
     return SafeArea(
@@ -22,16 +21,16 @@ class CustomAppbar extends StatelessWidget {
           width: double.infinity,
           child: Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.library_books_outlined,
-                color: colors.primary,
+                color: Colors.white,
               ),
               const SizedBox(
                 width: 5,
               ),
               Text(
                 'Deep Read App',
-                style: titleStyle,
+                style: titleStyle?.copyWith(color: Colors.white),
               ),
               const Spacer(),
               IconButton(
@@ -52,9 +51,9 @@ class CustomAppbar extends StatelessWidget {
                     context.push('/home/0/book/${book.id}');
                   });
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.search,
-                  color: colors.primary,
+                  color: Colors.white,
                 ),
               )
             ],
