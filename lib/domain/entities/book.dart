@@ -28,7 +28,7 @@ class Book {
   final String previewLink;
   @ignore
   ImageLinks? get imageLinks {
-    if (imageLinksJson == null || imageLinksJson.isEmpty) {
+    if (imageLinksJson.isEmpty) {
       return null;
     }
 

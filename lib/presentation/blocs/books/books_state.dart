@@ -1,6 +1,5 @@
 part of 'books_bloc.dart';
 
-@immutable
 abstract class BooksState {
   final List<Book>? scienceBooks;
   final List<Book>? headerBooks;

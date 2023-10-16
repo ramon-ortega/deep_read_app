@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:deep_read_app/presentation/blocs/local_storage/local_storage_bloc.dart';
+import 'package:deep_read_app/presentation/widgets/shared/full_screen_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -23,6 +22,20 @@ class FavoritesView extends StatelessWidget {
             builder: (context, state) {
           if (state is FavoritedState) {
             final favoriteBooksList = state.favoriteBooks.values.toList();
+
+            if (favoriteBooksList.isEmpty) {
+              return const Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image(
+                      image: AssetImage('assets/general/empty_books.png'),
+                    ),
+                    Text('No hay libros favoritos'),
+                  ],
+                ),
+              );
+            }
 
             return ListView.builder(
               itemCount: state.favoriteBooks.length,
@@ -73,9 +86,7 @@ class FavoritesView extends StatelessWidget {
               },
             );
           } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const FullScreenLoader();
           }
         }));
   }

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:deep_read_app/domain/entities/book.dart';
 import 'package:deep_read_app/infraestructure/datasources/isar_datasource.dart';
@@ -12,7 +10,7 @@ class LocalStorageBloc extends Bloc<LocalStorageEvent, LocalStorageState> {
   int page = 0;
   LocalStorageBloc() : super(LocalStorageInitial()) {
     on<ToggleFavoriteEvent>((event, emit) async {
-      final isardb = LocalStorageRepositoryImpl(
+      LocalStorageRepositoryImpl(
         IsarDatasource(),
       ).toggleFavorite(event.book);
     });

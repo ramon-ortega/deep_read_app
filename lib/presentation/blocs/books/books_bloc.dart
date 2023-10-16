@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:deep_read_app/domain/entities/book.dart';
 import 'package:deep_read_app/infraestructure/repositories/book_repository_impl.dart';
-import 'package:meta/meta.dart';
 
 part 'books_event.dart';
 part 'books_state.dart';

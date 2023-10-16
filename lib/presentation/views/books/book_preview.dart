@@ -10,7 +10,7 @@ class BookPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Book Preview'),
+        title: const Text('Vista Previa'),
       ),
       body: WebView(
         initialUrl: previewLink,

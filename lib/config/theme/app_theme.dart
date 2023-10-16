@@ -14,5 +14,34 @@ class AppTheme {
             color: Colors.white,
           ),
         ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.grey[400],
+            foregroundColor: Colors.white,
+          ),
+        ),
+      );
+
+  ThemeData getDarkTheme() => ThemeData.dark().copyWith(
+        useMaterial3: true,
+        scaffoldBackgroundColor: Colors.grey[800],
+        appBarTheme: const AppBarTheme(
+          color: Colors.black,
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+          ),
+          iconTheme: IconThemeData(
+            color: Colors.white,
+          ),
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.black,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.grey[400],
+            foregroundColor: Colors.white,
+          ),
+        ),
       );
 }

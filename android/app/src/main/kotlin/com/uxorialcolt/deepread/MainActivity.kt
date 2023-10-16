@@ -1,4 +1,4 @@
-package com.example.deep_read_app
+package com.uxorialcolt.deepread
 
 import io.flutter.embedding.android.FlutterActivity
 

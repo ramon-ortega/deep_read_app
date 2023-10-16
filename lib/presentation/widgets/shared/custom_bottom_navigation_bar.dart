@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:deep_read_app/presentation/blocs/local_storage/local_storage_bloc.dart';
+import 'package:deep_read_app/presentation/blocs/theme/theme_cubit.dart';
 import 'package:deep_read_app/presentation/views/books/linkedin_web_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,8 +44,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
               isScrollControlled: true,
               builder: (context) {
                 return SizedBox(
-                  height: MediaQuery.of(context).size.height *
-                      0.25, // 25% de la pantalla
+                  height: MediaQuery.of(context).size.height * 0.25,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -64,7 +64,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
                             Column(
                               children: [
                                 FloatingActionButton(
-                                  backgroundColor: const Color(0xFFFAF1D6),
                                   onPressed: () {
                                     Navigator.push(
                                       context,
@@ -77,11 +76,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
                                   child: const Icon(Icons.star),
                                 ),
                                 const SizedBox(height: 8),
-                                Text(
+                                const Text(
                                   'Desarrollado por:',
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: Colors.grey[700],
                                   ),
                                 )
                               ],
@@ -89,16 +87,19 @@ class CustomBottomNavigationBar extends StatelessWidget {
                             Column(
                               children: [
                                 FloatingActionButton(
-                                  backgroundColor: const Color(0xFFFAF1D6),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    final themeCubit =
+                                        BlocProvider.of<ThemeCubit>(context);
+
+                                    themeCubit.toggleTheme();
+                                  },
                                   child: const Icon(Icons.theater_comedy),
                                 ),
                                 const SizedBox(height: 8),
-                                Text(
+                                const Text(
                                   'Tema:',
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: Colors.grey[700],
                                   ),
                                 )
                               ],
