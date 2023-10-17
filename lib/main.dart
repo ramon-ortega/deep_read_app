@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:deep_read_app/presentation/blocs/books/books_bloc.dart';
 import 'package:deep_read_app/presentation/blocs/local_storage/local_storage_bloc.dart';
 import 'package:deep_read_app/presentation/blocs/search_book/search_book_cubit.dart';
@@ -32,19 +34,14 @@ void main() async {
           create: (context) => ThemeCubit(),
         )
       ],
-      child: MainApp(
-        themeCubit: themeCubit,
-      ),
+      child: const MainApp(),
     ),
   );
 }
 
 class MainApp extends StatelessWidget {
-  final ThemeCubit themeCubit;
-
   const MainApp({
     super.key,
-    required this.themeCubit,
   });
 
   @override

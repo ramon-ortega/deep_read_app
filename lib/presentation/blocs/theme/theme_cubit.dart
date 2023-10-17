@@ -27,7 +27,8 @@ class ThemeCubit extends Cubit<ThemeData> {
     log("THEME VALUE: $isDarkMode");
 
     if (isDarkMode) {
-      toggleTheme();
+      log("EMITE DARK");
+      emit(AppTheme().getDarkTheme());
     }
   }
 }
